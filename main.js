@@ -142,6 +142,7 @@ const beverages = [
 const menu = [
   {
     name: "HTML5 Hummus Platter",
+    quantity: 0,
     price: 8.99,
     calories: 320,
     description:
@@ -152,6 +153,7 @@ const menu = [
   },
   {
     name: "CSS Crispy Calamari",
+    quantity: 0,
     price: 10.99,
     calories: 450,
     description:
@@ -161,6 +163,7 @@ const menu = [
   },
   {
     name: "Vue Veggies Tempura",
+    quantity: 0,
     price: 9.49,
     calories: 280,
     description:
@@ -170,6 +173,7 @@ const menu = [
   },
   {
     name: "MVC Mixed Grill",
+    quantity: 0,
     price: 18.99,
     calories: 620,
     description:
@@ -180,6 +184,7 @@ const menu = [
   },
   {
     name: "Bootstrap BBQ Burger",
+    quantity: 0,
     price: 13.99,
     calories: 780,
     description:
@@ -189,6 +194,7 @@ const menu = [
   },
   {
     name: "C# Seafood Symphony",
+    quantity: 0,
     price: 22.99,
     calories: 540,
     description:
@@ -199,6 +205,7 @@ const menu = [
   },
   {
     name: "Node Noodle Stir-Fry",
+    quantity: 0,
     price: 15.99,
     calories: 460,
     description:
@@ -208,6 +215,7 @@ const menu = [
   },
   {
     name: ".NET Nacho Tower",
+    quantity: 0,
     price: 11.99,
     calories: 520,
     description:
@@ -218,6 +226,7 @@ const menu = [
   },
   {
     name: "Dynamic CSS Salad",
+    quantity: 0,
     price: 7.49,
     calories: 180,
     description:
@@ -227,6 +236,7 @@ const menu = [
   },
   {
     name: "Vue Vanilla Parfait",
+    quantity: 0,
     price: 6.99,
     calories: 280,
     description:
@@ -236,6 +246,7 @@ const menu = [
   },
   {
     name: "Node Nutty Brownie",
+    quantity: 0,
     price: 7.99,
     calories: 420,
     description:
@@ -246,6 +257,7 @@ const menu = [
   },
   {
     name: "Responsive Raspberry Cheesecake",
+    quantity: 0,
     price: 8.49,
     calories: 380,
     description:
@@ -255,6 +267,7 @@ const menu = [
   },
   {
     name: "CodeBrew Coffee",
+    quantity: 0,
     price: 3.99,
     calories: 5,
     description:
@@ -265,6 +278,7 @@ const menu = [
   },
   {
     name: "TechTonic Tea",
+    quantity: 0,
     price: 2.99,
     calories: 0,
     description:
@@ -274,6 +288,7 @@ const menu = [
   },
   {
     name: "Node Nectar",
+    quantity: 0,
     price: 4.49,
     calories: 90,
     description:
@@ -282,12 +297,6 @@ const menu = [
     type: "beverages",
   },
 ];
-
-const shoppingCart = [];
-
-// SECTION VARIABLES
-
-let totalCost = 0;
 
 // SECTION MENU
 
@@ -333,8 +342,7 @@ function menuString(menu) {
 
 function addToCart(name) {
   const item = findMenuItemByName(name);
-  shoppingCart.push(item);
-  console.log("[SHOPPING CART]", shoppingCart);
+  item.quantity++;
   drawCart(item);
   drawCartTotalCost(item);
 }
@@ -360,17 +368,31 @@ function drawCartTotalCost(item) {
   const cartElem = document.getElementById("cart");
   const checkoutCartElem = document.getElementById("checkoutCart");
 
-  totalCost += item.price;
-  totalPrice = totalCost.toFixed(2);
+  const totalItemsInCart = cartTotalItemsInCart();
+  const totalPrice = cartTotalPrice();
 
   cartElem.innerHTML = `
-    <p class="m-0">Subtotal (${shoppingCart.length} items)</p>
-    <p class="m-0 text-shadow">$${totalPrice}</p>
+    <p class="m-0">Subtotal (${totalItemsInCart} items)</p>
+    <p class="m-0 text-shadow">$${totalPrice.toFixed(2)}</p>
     `;
 
   checkoutCartElem.innerHTML = `
     <button onclick="checkout()" class="btn btn-light form-control">Checkout</button>
     `;
+}
+
+function cartTotalPrice() {
+  let totalPrice = 0;
+  menu.forEach((item) => (totalPrice += item.quantity * item.price));
+  console.log("[TOTAL PRICE]", totalPrice);
+  return totalPrice;
+}
+
+function cartTotalItemsInCart() {
+  let totalItemsInCart = 0;
+  menu.forEach((item) => (totalItemsInCart += item.quantity));
+  console.log("[TOTAL ITEMS IN CART]", totalItemsInCart);
+  return totalItemsInCart;
 }
 
 function checkout() {
