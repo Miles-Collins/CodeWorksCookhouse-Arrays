@@ -364,7 +364,7 @@ function drawCart(item) {
   `;
 }
 
-function drawCartTotalCost(item) {
+function drawCartTotalCost() {
   const cartElem = document.getElementById("cart");
   const checkoutCartElem = document.getElementById("checkoutCart");
 
